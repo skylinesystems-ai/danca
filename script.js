@@ -1,16 +1,13 @@
-import { db, ref, push, set, update, onValue, remove } from "./firebase.js";
+import { db } from "./firebase.js";
 
-let pessoas = {};
-let editandoID = null;
-
-const pessoasRef = ref(db, "pessoas");
-
-onValue(pessoasRef, (snapshot) => {
-  pessoas = snapshot.val() || {};
-  atualizarLista();
-  atualizarRanking();
-  atualizarResumo();
-});
+import {
+  ref,
+  push,
+  set,
+  update,
+  onValue,
+  remove
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 
 // ================= ADICIONAR MEMBRO =================
