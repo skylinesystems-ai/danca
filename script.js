@@ -1,16 +1,17 @@
-import { db } from "./firebase.js";
+import { db, ref, push, set, update, onValue, remove } from "./firebase.js";
 
-import {
-  ref,
-  push,
-  set,
-  update,
-  onValue,
-  remove
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+let pessoas = {};
+let editandoID = null;
 
+const pessoasRef = ref(db, "danca_pessoas");
 
-// ================= ADICIONAR MEMBRO =================
+onValue(pessoasRef, (snapshot) => {
+  pessoas = snapshot.val() || {};
+  atualizarLista();
+  atualizarRanking();
+  atualizarResumo();
+});
+
 document.getElementById("formAdd").addEventListener("submit", (e) => {
   e.preventDefault();
   const nome = document.getElementById("novoNome").value.trim();
@@ -30,8 +31,6 @@ document.getElementById("formAdd").addEventListener("submit", (e) => {
   document.getElementById("novoNome").value = "";
 });
 
-
-// ================= LANÇAR MDO =================
 document.getElementById("formMDO").addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -44,7 +43,7 @@ document.getElementById("formMDO").addEventListener("submit", (e) => {
 
   const pessoa = pessoas[id];
 
-  update(ref(db, "pessoas/" + id), {
+  update(ref(db, "danca_pessoas/" + id), {
     M: pessoa.M + M,
     D: pessoa.D + D,
     O: pessoa.O + O
@@ -53,15 +52,13 @@ document.getElementById("formMDO").addEventListener("submit", (e) => {
   limparCampos();
 });
 
-
-// ================= PRESENÇA =================
 window.marcarPresenca = function () {
   const id = document.getElementById("nomePresenca").value;
   if (!id) return;
 
   const pessoa = pessoas[id];
 
-  update(ref(db, "pessoas/" + id), {
+  update(ref(db, "danca_pessoas/" + id), {
     P: (pessoa.P || 0) + 1
   });
 };
@@ -72,13 +69,11 @@ window.marcarFalta = function () {
 
   const pessoa = pessoas[id];
 
-  update(ref(db, "pessoas/" + id), {
+  update(ref(db, "danca_pessoas/" + id), {
     F: (pessoa.F || 0) + 1
   });
 };
 
-
-// ================= LISTA =================
 function atualizarLista() {
   const selectMDO = document.getElementById("nome");
   const selectPresenca = document.getElementById("nomePresenca");
@@ -98,8 +93,6 @@ function atualizarLista() {
   }
 }
 
-
-// ================= RANKING =================
 function atualizarRanking() {
   const rankingDiv = document.getElementById("ranking");
   rankingDiv.innerHTML = "";
@@ -139,8 +132,6 @@ Excluir
   });
 }
 
-
-// ================= EDITAR =================
 window.abrirModal = function (id) {
   editandoID = id;
   const pessoa = pessoas[id];
@@ -160,7 +151,7 @@ window.fecharModal = function () {
 window.salvarEdicao = function () {
   if (!editandoID) return;
 
-  update(ref(db, "pessoas/" + editandoID), {
+  update(ref(db, "danca_pessoas/" + editandoID), {
     nome: document.getElementById("editNome").value,
     M: parseInt(document.getElementById("editM").value) || 0,
     D: parseInt(document.getElementById("editD").value) || 0,
@@ -170,17 +161,13 @@ window.salvarEdicao = function () {
   fecharModal();
 };
 
-
-// ================= DELETAR =================
 window.deletarPessoa = function (id, nome) {
   const confirmar = confirm(`Tem certeza que deseja excluir ${nome}?`);
   if (!confirmar) return;
 
-  remove(ref(db, "pessoas/" + id));
+  remove(ref(db, "danca_pessoas/" + id));
 };
 
-
-// ================= RESUMO =================
 function atualizarResumo() {
   const totalMembros = Object.keys(pessoas).length;
 
@@ -193,8 +180,6 @@ function atualizarResumo() {
   document.getElementById("totalVersiculos").innerText = totalGeral;
 }
 
-
-// ================= UTIL =================
 function limparCampos() {
   document.getElementById("meditacao").value = "";
   document.getElementById("decoracao").value = "";
