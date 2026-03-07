@@ -1,10 +1,11 @@
 :root {
-    --verde: #1b5e20;
-    --verde-claro: #2e7d32;
-    --bg: #f4f6f8;
+    --vermelho: #b71c1c;
+    --vermelho-claro: #e53935;
+    --preto: #121212;
+    --bg: #0f0f0f;
     --branco: #ffffff;
-    --cinza: #e0e0e0;
-    --sombra: 0 4px 12px rgba(0,0,0,0.08);
+    --cinza: #2a2a2a;
+    --sombra: 0 4px 12px rgba(0,0,0,0.4);
 }
 
 * {
@@ -15,12 +16,13 @@
 body {
     margin: 0;
     background: var(--bg);
+    color: var(--branco);
 }
 
 /* ================= HEADER ================= */
 
 header {
-    background: linear-gradient(135deg, var(--verde), var(--verde-claro));
+    background: linear-gradient(135deg, var(--preto), var(--vermelho));
     color: white;
     text-align: center;
     padding: 25px 15px;
@@ -49,7 +51,7 @@ main {
 }
 
 .card {
-    background: var(--branco);
+    background: #1a1a1a;
     padding: 18px;
     border-radius: 16px;
     box-shadow: var(--sombra);
@@ -68,6 +70,8 @@ input, select {
     font-size: 14px;
     border: 1px solid var(--cinza);
     width: 100%;
+    background: #0f0f0f;
+    color: white;
 }
 
 /* ================= BOTÕES ================= */
@@ -78,7 +82,7 @@ button {
     font-size: 14px;
     border: none;
     cursor: pointer;
-    background: var(--verde-claro);
+    background: var(--vermelho-claro);
     color: white;
     font-weight: 600;
     transition: 0.2s;
@@ -122,7 +126,7 @@ button:hover {
 }
 
 .stats div {
-    background: var(--branco);
+    background: #1a1a1a;
     padding: 18px;
     border-radius: 16px;
     text-align: center;
@@ -131,7 +135,7 @@ button:hover {
 
 .stats strong {
     font-size: 20px;
-    color: var(--verde);
+    color: var(--vermelho-claro);
 }
 
 /* ================= RANKING ================= */
@@ -139,9 +143,9 @@ button:hover {
 .ranking-card {
     padding: 14px;
     border-radius: 14px;
-    background: #fafafa;
+    background: #1a1a1a;
     margin-bottom: 10px;
-    border-left: 5px solid var(--verde-claro);
+    border-left: 5px solid var(--vermelho-claro);
 }
 
 .ranking-header {
@@ -167,7 +171,7 @@ button:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.7);
     display: none;
     justify-content: center;
     align-items: center;
@@ -175,7 +179,7 @@ button:hover {
 }
 
 .modal-content {
-    background: white;
+    background: #1a1a1a;
     padding: 22px;
     border-radius: 16px;
     width: 100%;
